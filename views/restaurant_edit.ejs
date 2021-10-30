@@ -1,0 +1,57 @@
+<%- include("partials/header") %>
+	<div class="container">
+		<h1>Add New Restaurant</h1>
+		<form  action="/restaurant" method="POST">
+		  <div class="mb-3 form-group">
+			<label for="title" class="form-label">Title</label>
+			<input type="text" class="form-control" name="title" value="<%=rest.title %>" autofocus>
+		  </div>
+			<div class="mb-3 form-group">
+			<label for="description" class="form-label">Description</label>
+			<input type="text" class="form-control" name="description" value="<%=rest.description %>">
+		  </div>
+			<div class="mb-3 form-group">
+			<label for="owner" class="form-label">Owner</label>
+			<input type="text" class="form-control" name="owner" value="<%=rest.owner %>">
+		  </div>
+			<div class="mb-3 form-group">
+			<label for="street" class="form-label">Street</label>
+			<input type="text" class="form-control" name="street" value="<%=rest.street %>">
+		  </div>
+		  <div class="mb-3 form-group col-3">
+			<label for="date" class="form-label">Date</label>
+			<input type="date" class="form-control" name="date" value="<%=rest.Date.toISOString().split('T')[0] %>">
+		  </div>
+			<div class="mb-3 form-group col-3">
+			<label for="genre" class="form-label">Genre</label>
+			<select class="form-control" id="genre" name="genre">
+				<option disabled >--Choose Below--</option>
+				<option <%= rest.genre === 'samosa' ? 'selected': '' %>>Samosa</option>
+				<option <%= rest.genre === 'chat' ? 'selected': '' %>>Chat</option>
+				<option <%= rest.genre === 'ice-cream' ? 'selected':' '%>>Ice-Cream</option>
+				<option <%= rest.genre === 'chiense' ? 'selected':' '%>>Chiense</option>
+				<option <%= rest.genre === 'momos' ? 'selected':' '%>>Momos</option>
+				<option <%= rest.genre === 'jalebi' ? 'selected':' '%>>Jalebi</option>
+				<option <%= rest.genre === 'egg' ? 'selected':' '%>>EGG</option>
+				<option <%= rest.genre === 'biryani' ? 'selected':' '%>>Biryani</option>
+			</select>
+		  </div>
+			<div class="mb-3 form-group col-3">
+			<label for="workers" class="form-label">Workers</label>
+			<input type="number" class="form-control" name="workers" value="<%=rest.workers %>">
+		  </div>
+			<div class="mb-3 form-group form-check col-3">
+			<input type="checkbox" class="form-check-input" name="sundayon" <%= rest.sundayon ? 'checked' : '' %>>
+			<label for="sundayon">Sunday-ON??</label>
+			
+		  </div>
+		  <div class="mb-3 form-group">
+			<label for="image" class="form-label">Link to Image</label>
+			<input type="text" class="form-control" name="image" value="<%=rest.image %>">
+		  </div>
+		  <button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+	
+</div>
+<%- include("partials/footer") %>
+	

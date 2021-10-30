@@ -1,0 +1,57 @@
+<%- include("partials/header") %>
+	<div class="container">
+		<h1>Add New Restaurant</h1>
+		<form  action="/restaurant" method="POST">
+		  <div class="mb-3 form-group">
+			<label for="title" class="form-label">Title</label>
+			<input type="text" class="form-control" name="title" placeholder="e.g. Gual" autofocus>
+		  </div>
+			<div class="mb-3 form-group">
+			<label for="description" class="form-label">Description</label>
+			<input type="text" class="form-control" name="description" placeholder="e.g. It's a nice restaurant for samosa ">
+		  </div>
+			<div class="mb-3 form-group">
+			<label for="owner" class="form-label">Owner</label>
+			<input type="text" class="form-control" name="owner" placeholder="e.g. Ramdas kushwah">
+		  </div>
+			<div class="mb-3 form-group">
+			<label for="street" class="form-label">Street</label>
+			<input type="text" class="form-control" name="street" placeholder="e.g. Mandir gali">
+		  </div>
+		  <div class="mb-3 form-group col-3">
+			<label for="date" class="form-label">Date</label>
+			<input type="date" class="form-control" name="date">
+		  </div>
+			<div class="mb-3 form-group col-3">
+			<label for="genre" class="form-label">Genre</label>
+			<select class="form-control" id="genre" name="genre">
+				<option disabled selected>--Choose Below--</option>
+				<option>Samosa</option>
+				<option>Chat</option>
+				<option>Ice-Cream</option>
+				<option>Chiense</option>
+				<option>Momos</option>
+				<option>Jalebi</option>
+				<option>EGG</option>
+				<option>Biryani</option>
+			</select>
+		  </div>
+			<div class="mb-3 form-group col-3">
+			<label for="workers" class="form-label">Workers</label>
+			<input type="number" class="form-control" name="workers" placeholder="e.g. 3">
+		  </div>
+			<div class="mb-3 form-group form-check col-3">
+			<input type="checkbox" class="form-check-input" name="sundayon">
+			<label for="sundayon">Sunday-ON??</label>
+			
+		  </div>
+		  <div class="mb-3 form-group">
+			<label for="image" class="form-label">Link to Image</label>
+			<input type="text" class="form-control" name="image" placeholder="https://www.myimage.com">
+		  </div>
+		  <button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+	
+</div>
+<%- include("partials/footer") %>
+	

@@ -1,0 +1,59 @@
+<%- include("partials/header") %>
+
+<div class="container">
+	<div class=" row mt-4">
+		<div class="col-6 show_image-container">
+			<img src="<%= rest.image %>">
+		</div>
+		<div class="col-6 show_details-comtainer">
+			<h1><%= rest.title %></h1>
+			<p><%= rest.description %></p>
+			<table class="table">
+			  <tbody>
+				<tr>
+				  <th scope="row">Owner</th>
+				  <td><%= rest.owner %></td>
+				</tr>
+				<tr>
+				  <th scope="row">Street</th>
+				  <td><%= rest.street %></td>
+				</tr>
+				<tr>
+				  <th scope="row">Date</th>
+				  <td><%= rest.Date %></td>
+				</tr>
+				<tr>
+				  <th scope="row">Genre</th>
+				  <td><%= rest.genre %></td>
+				</tr>
+				<tr>
+				  <th scope="row">Workers</th>
+				  <td><%= rest.workers %></td>
+				</tr>
+				<tr>
+				  <th scope="row">Sunday-On</th>
+				  <td><%= rest.sundayon %></td>
+				</tr>
+			  </tbody>
+			</table>
+			
+		</div>
+	</div>
+	<div class="row show_comment-header mt-3">
+		COMMENT HEADER
+	</div>
+	<% comments.forEach((comment => { %>
+	
+		<div class="row show_comment-container py-2">
+			<div class="col-3">
+				<%= comment.user %>
+			</div>
+			<div class="col-9">
+				<%= comment.text %>
+			</div>
+		</div>
+		
+	<% })) %>
+	
+</div>
+<%- include("partials/footer") %>
