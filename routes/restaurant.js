@@ -4,22 +4,20 @@ const router =express.Router();
 const Comment= require('../models/comment');
 
 //INDEX
-router.get("/",(req,res) => {
-	Rest.find()
-	.exec()
-	.then((rests)=>{
+router.get("/", async(req,res) => {
+	try{
+		const rests = await Rest.find().exec();
 		res.render("restaurant",{restaurant:rests});
-	})
-	.catch((err)=>{
-		console.log(err)
-		res.redirect("/restaurant")
-	})
-	// res.render("restaurant",{restaurant});
+	}
+	catch(err){
+		console.log(err);
+		res.send("you broki it .../index");
+	}	
 });
 
 // Create
 
-router.post("/",(req,res) => {
+router.post("/", async(req,res) => {
 	console.log(req.body);
 	const genre =req.body.genre.toLowerCase();
 	const newRest= {
@@ -33,16 +31,15 @@ router.post("/",(req,res) => {
 		sundayon: !!req.body.sundayon,
 		image_link: req.body.image_link
 	}
-	
-	Rest.create(newRest)
-	.then((rest)=> {
+	try{
+		const rest = await Rest.create(newRest)	;
 		console.log(rest)
 		res.redirect("/restaurant/"+rest.id);
-	})
-	.catch((err)=>{
+	}
+	catch(err){
 		console.log(err);
 		rest.redirect("/restaurant");
-	})
+	}
 	// restaurant.push(req.body)
 	
 });
@@ -55,42 +52,37 @@ router.get("/new",(req,res)=>{
 
 //Show
 
-router.get("/:id",(req,res)=> {
-	Rest.findById(req.params.id)
-	.exec()
-	.then((rest)=> {
-		Comment.find({comicId:req.params.id},(err,comments)=>{
-			if(err){
-				res.send(err);
-			}
-			else{
-				res.render("restaurant_show",{rest,comments})
-			}
-		})
-		
-			
-	})
-	.catch((err) => {
-		res.send(err)
-	})
+router.get("/:id",async (req,res)=> {
+	try {
+		const rest= await Rest.findById(req.params.id).exec()
+		const comments = await Comment.find({comicId:req.params.id});
+		res.render("restaurant_show",{rest,comments})
+	}
+	catch(err){
+		console.log(err);
+		res.send("You broke it ... /restaurant/:id");
+	}
 	
 })
 
 //Edit
 
-router.get("/:id/edit",(req,res)=> {
+router.get("/:id/edit",async (req,res)=> {
 	//Get the comic from the DB'
-	Rest.findById(req.params.id)
-	.exec()
-	.then((rest) => {
+	try{
+		const rest = await Rest.findById(req.params.id).exec()
 		res.render("restaurant_edit",{rest})
-	})
+	}catch(err){
+		console.log(err);
+		res.send("Broken ../comics/id/edit")
+	}
+	
 	//Render the edit form passing in that comic
 })
 
 //Update
 
-router.put("/:id",(req,res) => {
+router.put("/:id", async(req,res) => {
 	console.log(req.body);
 	const genre =req.body.genre.toLowerCase();
 	const rest= {
@@ -104,32 +96,28 @@ router.put("/:id",(req,res) => {
 		sundayon: !!req.body.sundayon,
 		image_link: req.body.image_link
 	}
-	
-	Rest.findByIdAndUpdate(req.params.id, rest, {new: true} )
-	.exec()
-	.then((updatedRest)=> {
-		console.log(updatedRest)
+	try{
+		const updatedRest =await Rest.findByIdAndUpdate(req.params.id, rest, {new: true} ).exec();
+		console.log(updatedRest);
 		res.redirect(`/restaurant/${req.params.id}`);
-	})
-	.catch((err)=> {
-	res.send("Error:",err);
-	})
-	
+	}catch(err){
+		console.log(err);
+		res.send("You broke it ... /restaurant/:id");
+	}	
 })
 
 
 //Delete
 
-router.delete("/:id",(req,res) => {
-	Rest.findByIdAndDelete(req.params.id)
-	.exec()
-	.then((deletedRest)=> {
+router.delete("/:id",async (req,res) => {
+	try{
+		const deletedRest = await Rest.findByIdAndDelete(req.params.id).exec()
 		console.log("Deleted:",deletedRest);
 		res.redirect("/restaurant");
-	})
-	.catch((err)=>{
-		res.send("Error deleting",err);
-	})
+	}catch{
+		console.log(err);
+		res.send("You broke it ... /restaurant/:id");
+	}
 })
 
 module.exports=router;
