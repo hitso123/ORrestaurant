@@ -36,10 +36,10 @@
 				</tr>
 			  </tbody>
 			</table>
-			 <a href="/restaurant/<%= rest.id %>/edit">
+			 <a href="/restaurant/<%= rest._id %>/edit">
 				<button class="show_edit-button btn btn-outline-info btn-lg btn-block mb-2">Edit</button>	
 			</a>
-			<form action ="/restaurant/<%= rest.id %>?_method=DELETE" method="POST">
+			<form action ="/restaurant/<%= rest._id %>?_method=DELETE" method="POST">
 				<button type="submit" class="show_edit-button btn btn-outline-danger btn-lg btn-block">Delete</button>
 			</form>
 		</div>
@@ -48,17 +48,17 @@
 		COMMENT HEADER
 	</div>
 	<% comments.forEach((comment => { %>
-	
+		<% if(comment.restId == rest.id){ %>
 		<div class="row show_comment-container py-2">
 			<div class="col-3">
 				<%= comment.user %>
 			</div>
 			<div class="col-9">
-				<%= comment.text %>
+				<%= comment.text %>c
 			</div>
 		</div>
 		
-	<% })) %>
+	<% }})) %>
 	
 </div>
 <%- include("partials/footer") %>
