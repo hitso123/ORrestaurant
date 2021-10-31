@@ -9,6 +9,6 @@ const restSchema =new mongoose.Schema({
 	genre: String,
 	workers: Number,
 	sundayon:Boolean,
-	image:String
+	image_link:String
 })
 module.exports=mongoose.model("rest",restSchema);

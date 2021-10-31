@@ -2,6 +2,8 @@ const express= require('express');
 const Rest =require('../models/rest');
 const router =express.Router();
 const Comment= require('../models/comment');
+
+//INDEX
 router.get("/",(req,res) => {
 	Rest.find()
 	.exec()
@@ -15,6 +17,8 @@ router.get("/",(req,res) => {
 	// res.render("restaurant",{restaurant});
 });
 
+// Create
+
 router.post("/",(req,res) => {
 	console.log(req.body);
 	const genre =req.body.genre.toLowerCase();
@@ -27,13 +31,13 @@ router.post("/",(req,res) => {
 		genre: genre,
 		workers: req.body.workers,
 		sundayon: !!req.body.sundayon,
-		image: req.body.image
+		image_link: req.body.image_link
 	}
 	
 	Rest.create(newRest)
 	.then((rest)=> {
 		console.log(rest)
-		res.redirect("/restaurant");
+		res.redirect("/restaurant/"+rest.id);
 	})
 	.catch((err)=>{
 		console.log(err);
@@ -48,6 +52,8 @@ router.post("/",(req,res) => {
 router.get("/new",(req,res)=>{
 	res.render("restaurant_new");	
 });
+
+//Show
 
 router.get("/:id",(req,res)=> {
 	Rest.findById(req.params.id)
@@ -70,6 +76,8 @@ router.get("/:id",(req,res)=> {
 	
 })
 
+//Edit
+
 router.get("/:id/edit",(req,res)=> {
 	//Get the comic from the DB'
 	Rest.findById(req.params.id)
@@ -79,6 +87,8 @@ router.get("/:id/edit",(req,res)=> {
 	})
 	//Render the edit form passing in that comic
 })
+
+//Update
 
 router.put("/:id",(req,res) => {
 	console.log(req.body);
@@ -92,7 +102,7 @@ router.put("/:id",(req,res) => {
 		genre: genre,
 		workers: req.body.workers,
 		sundayon: !!req.body.sundayon,
-		image: req.body.image
+		image_link: req.body.image_link
 	}
 	
 	Rest.findByIdAndUpdate(req.params.id, rest, {new: true} )
@@ -105,6 +115,21 @@ router.put("/:id",(req,res) => {
 	res.send("Error:",err);
 	})
 	
+})
+
+
+//Delete
+
+router.delete("/:id",(req,res) => {
+	Rest.findByIdAndDelete(req.params.id)
+	.exec()
+	.then((deletedRest)=> {
+		console.log("Deleted:",deletedRest);
+		res.redirect("/restaurant");
+	})
+	.catch((err)=>{
+		res.send("Error deleting",err);
+	})
 })
 
 module.exports=router;

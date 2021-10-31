@@ -1,6 +1,6 @@
 <%- include("partials/header") %>
 	<div class="container">
-		<h1>Add New Restaurant</h1>
+		<h1>Edit Restaurant</h1>
 		<form  action="/restaurant/<%= rest.id %>?_method=PUT" method="POST">
 		  <div class="mb-3 form-group">
 			<label for="title" class="form-label">Title</label>
@@ -47,7 +47,7 @@
 		  </div>
 		  <div class="mb-3 form-group">
 			<label for="image" class="form-label">Link to Image</label>
-			<input type="text" class="form-control" name="image" value="<%=rest.image %>">
+			<input type="text" class="form-control" name="image_link" value="<%=rest.image_link %>">
 		  </div>
 		  <button type="submit" class="btn btn-primary">Submit</button>
 		</form>

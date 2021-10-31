@@ -3,9 +3,9 @@
 <div class="container">
 	<div class=" row mt-4">
 		<div class="col-6 show_image-container">
-			<img src="<%= rest.image %>">
+			<img src="<%= rest.image_link %>">
 		</div>
-		<div class="col-6 show_details-comtainer">
+		<div class="col-6 show_details-container">
 			<h1><%= rest.title %></h1>
 			<p><%= rest.description %></p>
 			<table class="table">
@@ -36,7 +36,12 @@
 				</tr>
 			  </tbody>
 			</table>
-			
+			 <a href="/restaurant/<%= rest.id %>/edit">
+				<button class="show_edit-button btn btn-outline-info btn-lg btn-block mb-2">Edit</button>	
+			</a>
+			<form action ="/restaurant/<%= rest.id %>?_method=DELETE" method="POST">
+				<button type="submit" class="show_edit-button btn btn-outline-danger btn-lg btn-block">Delete</button>
+			</form>
 		</div>
 	</div>
 	<div class="row show_comment-header mt-3">
