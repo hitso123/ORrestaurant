@@ -80,4 +80,31 @@ router.get("/:id/edit",(req,res)=> {
 	//Render the edit form passing in that comic
 })
 
+router.put("/:id",(req,res) => {
+	console.log(req.body);
+	const genre =req.body.genre.toLowerCase();
+	const rest= {
+		title: req.body.title,
+		description: req.body.description,
+		owner: req.body.owner,
+		street: req.body.street,
+		Date : req.body.date,		
+		genre: genre,
+		workers: req.body.workers,
+		sundayon: !!req.body.sundayon,
+		image: req.body.image
+	}
+	
+	Rest.findByIdAndUpdate(req.params.id, rest, {new: true} )
+	.exec()
+	.then((updatedRest)=> {
+		console.log(updatedRest)
+		res.redirect(`/restaurant/${req.params.id}`);
+	})
+	.catch((err)=> {
+	res.send("Error:",err);
+	})
+	
+})
+
 module.exports=router;

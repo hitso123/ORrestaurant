@@ -3,9 +3,11 @@ const express =require('express');
 const app =express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const methodOverride = require('method-override')
 
 //config Imports
 const config =require('./config');
+
 
 //Route Imports
 const restaurantRoutes=require('./routes/restaurant')
@@ -18,9 +20,12 @@ const Comment= require('./models/comment');
 
 //Connect to db
 mongoose.connect(config.db.connection);
+
+//Config
 app.set("view engine","ejs");
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(methodOverride('_method'));
 
 
 
