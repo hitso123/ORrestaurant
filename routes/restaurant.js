@@ -55,7 +55,7 @@ router.get("/new",(req,res)=>{
 router.get("/:id",async (req,res)=> {
 	try {
 		const rest= await Rest.findById(req.params.id).exec()
-		const comments = await Comment.find({comicId:req.params.id});
+		const comments = await Comment.find({restId:req.params.id});
 		res.render("restaurant_show",{rest,comments})
 	}
 	catch(err){

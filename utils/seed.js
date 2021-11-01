@@ -53,7 +53,7 @@ const seed= async () =>{
 		console.log("created a new Rest",rest.title);
 		//Create a new comment for each restaurant
 		await Comment.create( {
-			text : "I went to the Restaurant",
+			text : "I went to the Restaurant ",
 			user : "scoby_doo",
 			restId:rest._id
 		})

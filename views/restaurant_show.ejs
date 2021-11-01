@@ -47,18 +47,35 @@
 	<div class="row show_comment-header mt-3">
 		COMMENT HEADER
 	</div>
-	<% comments.forEach((comment => { %>
-		<% if(comment.restId == rest.id){ %>
-		<div class="row show_comment-container py-2">
-			<div class="col-3">
+	<a href="/restaurant/<%= rest._id %>/comments/new">
+		<button class=" btn btn-success btn-lg mt-3 mb-4">
+			Add Comment
+		</button> 
+	</a>
+	<% comments.forEach((comment => { %>		
+		<div class="row show_comment-container py-2 border">
+			<div class="col-2 border-right my-auto">
 				<%= comment.user %>
 			</div>
-			<div class="col-9">
-				<%= comment.text %>c
+			<div class="col-2 border-right my-auto d-flex flex-wrap justify-content-center">
+				<a class="btn btn-sm btn-success w-75 p-0 my-1" href="/restaurant/<%= rest._id %>/comments/<%= comment.id %>/edit">
+					Edit
+				</a>
+				<form class="w-75 my-1" action="/restaurant/<%= rest._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+					<button class="btn btn-sm btn-danger w-100 p-0">
+						Delete
+					</button>
+				</form>
+			</div>
+			<div class="col-8 my-auto">
+				<%= comment.text %>
 			</div>
 		</div>
 		
-	<% }})) %>
+	<% })) %>
+	<div class="py-5">
+		
+	</div>
 	
 </div>
 <%- include("partials/footer") %>
