@@ -50,6 +50,21 @@ router.get("/new",(req,res)=>{
 	res.render("restaurant_new");	
 });
 
+// Search
+router.get("/search",async (req,res) => {
+	try {
+		const rest=await Rest.find({
+			$text:{
+				$search:req.query.term
+			}
+		});
+		res.render("restaurant",{restaurant:rest});
+	} catch(err){
+		console.log(err);
+		res.send("Broken again")
+	}
+})
+
 //Show
 
 router.get("/:id",async (req,res)=> {

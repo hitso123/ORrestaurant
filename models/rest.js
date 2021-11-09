@@ -11,4 +11,8 @@ const restSchema =new mongoose.Schema({
 	sundayon:Boolean,
 	image_link:String
 })
+
+restSchema.index({
+	'$**' :'text'
+});
 module.exports=mongoose.model("rest",restSchema);
