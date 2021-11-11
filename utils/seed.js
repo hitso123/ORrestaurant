@@ -48,17 +48,17 @@ const seed= async () =>{
 	console.log("Deleted All the Comments");
 	
 	// Create three new comics
-	for (const rest_seed of rest_seeds) {
-		let rest = await Rest.create(rest_seed);
-		console.log("created a new Rest",rest.title);
-		//Create a new comment for each restaurant
-		await Comment.create( {
-			text : "I went to the Restaurant ",
-			user : "scoby_doo",
-			restId:rest._id
-		})
-		console.log("created a new comment!")
-	}
+	// for (const rest_seed of rest_seeds) {
+	// 	let rest = await Rest.create(rest_seed);
+	// 	console.log("created a new Rest",rest.title);
+	// 	//Create a new comment for each restaurant
+	// 	await Comment.create( {
+	// 		text : "I went to the Restaurant ",
+	// 		user : "scoby_doo",
+	// 		restId:rest._id
+	// 	})
+	// 	console.log("created a new comment!")
+	// }
 	
 	
 }

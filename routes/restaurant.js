@@ -5,7 +5,7 @@ const Comment= require('../models/comment');
 
 //INDEX
 router.get("/", async(req,res) => {
-	console.log(req.user)
+	console.log(req.user);
 	try{
 		const rests = await Rest.find().exec();
 		res.render("restaurant",{restaurant:rests});
@@ -18,7 +18,7 @@ router.get("/", async(req,res) => {
 
 // Create
 
-router.post("/", async(req,res) => {
+router.post("/", isLoggedIn , async(req,res) => {
 	console.log(req.body);
 	const genre =req.body.genre.toLowerCase();
 	const newRest= {
@@ -30,7 +30,11 @@ router.post("/", async(req,res) => {
 		genre: genre,
 		workers: req.body.workers,
 		sundayon: !!req.body.sundayon,
-		image_link: req.body.image_link
+		image_link: req.body.image_link,
+		author: {
+			id: req.user._id,
+			username: req.user.username
+		}
 	}
 	try{
 		const rest = await Rest.create(newRest)	;
@@ -47,7 +51,7 @@ router.post("/", async(req,res) => {
 
 
 // NEW route to be ID route otherwise it will shown never 
-router.get("/new",(req,res)=>{
+router.get("/new", isLoggedIn ,(req,res)=>{
 	res.render("restaurant_new");	
 });
 
@@ -83,7 +87,7 @@ router.get("/:id",async (req,res)=> {
 
 //Edit
 
-router.get("/:id/edit",async (req,res)=> {
+router.get("/:id/edit",isLoggedIn, async (req,res)=> {
 	//Get the comic from the DB'
 	try{
 		const rest = await Rest.findById(req.params.id).exec()
@@ -98,7 +102,7 @@ router.get("/:id/edit",async (req,res)=> {
 
 //Update
 
-router.put("/:id", async(req,res) => {
+router.put("/:id", isLoggedIn, async(req,res) => {
 	console.log(req.body);
 	const genre =req.body.genre.toLowerCase();
 	const rest= {
@@ -125,7 +129,7 @@ router.put("/:id", async(req,res) => {
 
 //Delete
 
-router.delete("/:id",async (req,res) => {
+router.delete("/:id",isLoggedIn ,async (req,res) => {
 	try{
 		const deletedRest = await Rest.findByIdAndDelete(req.params.id).exec()
 		console.log("Deleted:",deletedRest);
@@ -135,5 +139,14 @@ router.delete("/:id",async (req,res) => {
 		res.send("You broke it ... /restaurant/:id");
 	}
 })
+
+function isLoggedIn(req, res, next){
+	if (req.isAuthenticated()) {
+		return next();
+	}
+	else {
+		res.redirect("/login");
+	}
+};
 
 module.exports=router;

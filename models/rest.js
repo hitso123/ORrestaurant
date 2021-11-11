@@ -9,7 +9,14 @@ const restSchema =new mongoose.Schema({
 	genre: String,
 	workers: Number,
 	sundayon:Boolean,
-	image_link:String
+	image_link:String,
+	author: {
+		id: {
+			type : mongoose.Schema.Types.ObjectId,
+			ref : "User"
+		},
+		username : String
+	}
 })
 
 restSchema.index({
