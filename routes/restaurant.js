@@ -5,6 +5,7 @@ const Comment= require('../models/comment');
 
 //INDEX
 router.get("/", async(req,res) => {
+	console.log(req.user)
 	try{
 		const rests = await Rest.find().exec();
 		res.render("restaurant",{restaurant:rests});
