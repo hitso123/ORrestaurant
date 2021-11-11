@@ -6,15 +6,18 @@ const Rest =require('../models/rest');
 
 
 //new Comment -Show form
-router.get("/new",(req,res)=> {
+router.get("/new",  isLoggedIn ,  (req,res)=> {
 	res.render("comments_new",{restId: req.params.id})
 })
 
 // create Comments -Actually Update DB
 
-router.post("/",async(req,res)=> {
+router.post("/",  isLoggedIn , async(req,res)=> {
 	const newComment = await Comment.create({
-		user: req.body.user,
+		user: {
+			id: req.user._id,
+			username: req.user.username
+		},
 		text:req.body.text,
 		restId:req.body.restId
 	})
@@ -31,7 +34,7 @@ router.post("/",async(req,res)=> {
 })
 
 //Edit comment -show the form 
-router.get("/:commentId/edit",async(req,res) => {
+router.get("/:commentId/edit",  isLoggedIn , async(req,res) => {
 	try {
 		const rest= await Rest.findById(req.params.id).exec();
 		const comment =await Comment.findById(req.params.commentId).exec();
@@ -40,14 +43,14 @@ router.get("/:commentId/edit",async(req,res) => {
 		res.render("comments_edit",{rest,comment});
 	}
 	catch(err){
-		console.log(err);
+		console.log(err);	
 		res.send("Broke Comment Edit Get")
 	}
 })
 
 //Update comment -Actually update th DB
 
-router.put("/:commentId",async(req,res)=> {
+router.put("/:commentId",  isLoggedIn , async(req,res)=> {
 	try{
 		const comment=await Comment.findByIdAndUpdate(req.params.commentId,{text:req.body.text},{new:true});
 		console.log(comment);
@@ -60,7 +63,7 @@ router.put("/:commentId",async(req,res)=> {
 })
 
 // Delete Comment -Duh
-router.delete("/:commentId",async (req,res) => {
+router.delete("/:commentId", isLoggedIn , async (req,res) => {
 	try {
 		const comment = await Comment.findByIdAndDelete(req.params.commentId);
 		console.log(comment);
@@ -71,6 +74,18 @@ router.delete("/:commentId",async (req,res) => {
 		res.send("Broken again comment DELETE")
 	}
 })
+
+
+function isLoggedIn(req, res, next){
+	if (req.isAuthenticated()) {
+		return next();
+	}
+	else {
+		res.redirect("/login");
+	}
+};
+
+
 
 
 module.exports=router;
