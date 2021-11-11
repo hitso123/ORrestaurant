@@ -3,6 +3,7 @@ const router=express.Router({mergeParams:true});
 
 const Comment= require('../models/comment');
 const Rest =require('../models/rest');
+const isLoggedIn=require('../utils/isLoggedIn');
 
 
 //new Comment -Show form
@@ -75,15 +76,6 @@ router.delete("/:commentId", isLoggedIn , async (req,res) => {
 	}
 })
 
-
-function isLoggedIn(req, res, next){
-	if (req.isAuthenticated()) {
-		return next();
-	}
-	else {
-		res.redirect("/login");
-	}
-};
 
 
 

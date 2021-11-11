@@ -2,6 +2,7 @@ const express= require('express');
 const Rest =require('../models/rest');
 const router =express.Router();
 const Comment= require('../models/comment');
+const isLoggedIn=require('../utils/isLoggedIn');
 
 //INDEX
 router.get("/", async(req,res) => {
@@ -139,14 +140,5 @@ router.delete("/:id",isLoggedIn ,async (req,res) => {
 		res.send("You broke it ... /restaurant/:id");
 	}
 })
-
-function isLoggedIn(req, res, next){
-	if (req.isAuthenticated()) {
-		return next();
-	}
-	else {
-		res.redirect("/login");
-	}
-};
 
 module.exports=router;
