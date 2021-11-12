@@ -89,16 +89,24 @@ router.get("/:id",async (req,res)=> {
 //Edit
 
 router.get("/:id/edit",isLoggedIn, async (req,res)=> {
-	//Get the comic from the DB'
-	try{
-		const rest = await Rest.findById(req.params.id).exec()
-		res.render("restaurant_edit",{rest})
-	}catch(err){
-		console.log(err);
-		res.send("Broken ../comics/id/edit")
-	}
 	
-	//Render the edit form passing in that comic
+	if(req.isAuthenticated()){ // Check if the user is logges in 
+		//If logged in check if they own the restaurant
+		const rest= await Rest.findById(req.params.id).exec();
+		console.log(rest.author.id);
+		console.log(req.user._id);
+		
+		if(rest.author.id.equals(req.user._id)){
+			// If author, render the form to edit
+			res.render("restaurant_edit",{rest});
+		}
+		else{
+			// If not rediect back to show the page
+			res.redirect(`/restaurant/${rest._id}`)
+		}
+	} else {  // if not logged in ,rederict to /login	
+		res.redirect("/login");
+	} 
 })
 
 //Update
