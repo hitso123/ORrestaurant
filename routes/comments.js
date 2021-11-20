@@ -4,6 +4,7 @@ const router=express.Router({mergeParams:true});
 const Comment= require('../models/comment');
 const Rest =require('../models/rest');
 const isLoggedIn=require('../utils/isLoggedIn');
+const checkCommentAuthor=require('../utils/checkCommentAuthor');
 
 
 //new Comment -Show form
@@ -35,7 +36,7 @@ router.post("/",  isLoggedIn , async(req,res)=> {
 })
 
 //Edit comment -show the form 
-router.get("/:commentId/edit",  isLoggedIn , async(req,res) => {
+router.get("/:commentId/edit",  checkCommentAuthor , async(req,res) => {
 	try {
 		const rest= await Rest.findById(req.params.id).exec();
 		const comment =await Comment.findById(req.params.commentId).exec();
@@ -51,7 +52,7 @@ router.get("/:commentId/edit",  isLoggedIn , async(req,res) => {
 
 //Update comment -Actually update th DB
 
-router.put("/:commentId",  isLoggedIn , async(req,res)=> {
+router.put("/:commentId",  checkCommentAuthor , async(req,res)=> {
 	try{
 		const comment=await Comment.findByIdAndUpdate(req.params.commentId,{text:req.body.text},{new:true});
 		console.log(comment);
@@ -64,7 +65,7 @@ router.put("/:commentId",  isLoggedIn , async(req,res)=> {
 })
 
 // Delete Comment -Duh
-router.delete("/:commentId", isLoggedIn , async (req,res) => {
+router.delete("/:commentId", checkCommentAuthor , async (req,res) => {
 	try {
 		const comment = await Comment.findByIdAndDelete(req.params.commentId);
 		console.log(comment);
