@@ -3,6 +3,7 @@ const Rest =require('../models/rest');
 const router =express.Router();
 const Comment= require('../models/comment');
 const isLoggedIn=require('../utils/isLoggedIn');
+const checkRestAuthor = require('../utils/checkRestAuthor');
 
 //INDEX
 router.get("/", async(req,res) => {
@@ -88,30 +89,15 @@ router.get("/:id",async (req,res)=> {
 
 //Edit
 
-router.get("/:id/edit",isLoggedIn, async (req,res)=> {
+router.get("/:id/edit",checkRestAuthor, async (req,res)=> {
 	
-	if(req.isAuthenticated()){ // Check if the user is logges in 
-		//If logged in check if they own the restaurant
-		const rest= await Rest.findById(req.params.id).exec();
-		console.log(rest.author.id);
-		console.log(req.user._id);
-		
-		if(rest.author.id.equals(req.user._id)){
-			// If author, render the form to edit
-			res.render("restaurant_edit",{rest});
-		}
-		else{
-			// If not rediect back to show the page
-			res.redirect(`/restaurant/${rest._id}`)
-		}
-	} else {  // if not logged in ,rederict to /login	
-		res.redirect("/login");
-	} 
+	const rest= await Rest.findById(req.params.id).exec();
+	res.render("restaurant_edit",{rest});
 })
 
 //Update
 
-router.put("/:id", isLoggedIn, async(req,res) => {
+router.put("/:id", checkRestAuthor, async(req,res) => {
 	console.log(req.body);
 	const genre =req.body.genre.toLowerCase();
 	const rest= {
@@ -138,7 +124,7 @@ router.put("/:id", isLoggedIn, async(req,res) => {
 
 //Delete
 
-router.delete("/:id",isLoggedIn ,async (req,res) => {
+router.delete("/:id",checkRestAuthor ,async (req,res) => {
 	try{
 		const deletedRest = await Rest.findByIdAndDelete(req.params.id).exec()
 		console.log("Deleted:",deletedRest);
