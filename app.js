@@ -15,7 +15,13 @@ const LocalStrategy = require('passport-local').Strategy;
 const expressSession = require('express-session');
 
 //config Imports
-const config =require('./config');
+try{
+	var config =require('./config');
+}
+catch (e){
+	console.log("Could not import config. This is probably means you're not working locally");
+	console.log(e);
+}
 
 
 //Route Imports
@@ -45,7 +51,13 @@ app.use(morgan('tiny'))
 //============================
 
 //Connect to db
-mongoose.connect(config.db.connection);
+try{
+	mongoose.connect(config.db.connection);
+}
+catch{
+	console.log("Could not connect using config. This probably means you are not working locally");
+	mongoose.connect(process.env.DB_CONNECTION_STRING);
+}
 
 // Express Config
 app.set("view engine","ejs");
@@ -56,7 +68,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 //Express Session Config
 app.use(expressSession({
-	secret : "jkhgdsbjoitygrvbfgkjcxhgjdfasvcilbghdfkjbv",
+	secret : process.env.ES_SECRET || config.expressSession.secret,
 	resave: false,
 	saveUninitialized: false
 }));
@@ -88,6 +100,6 @@ app.use("/restaurant",restaurantRoutes);
 //============================
 
 
-app.listen(3000,()=>{
+app.listen(process.env.PORT || 3000,()=>{
 	console.log("ORrestaurant is running....");
 });
