@@ -72,6 +72,23 @@ router.get("/search",async (req,res) => {
 	}
 })
 
+//Genre
+router.get("/genre/:genre",async(req,res) => {
+	//Check if the given genre is valid 
+	const validGenres = ["samosa","chat","ice-cream","chinese","momos","jalebi","egg","biryani"];
+	if(validGenres.includes(req.params.genre.toLowerCase())) {
+		// If yes , continue 
+		const rest= await Rest.find({genre:req.params.genre}).exec();
+		res.render("restaurant",{restaurant:rest});
+		
+	} else {
+		res.send("Please enter a valid genre")
+		// If no, send an error	
+	}
+	
+	
+});
+
 //Show
 
 router.get("/:id",async (req,res)=> {
