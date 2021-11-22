@@ -7,12 +7,14 @@
 const express =require('express');
 const app =express();
 const bodyParser = require('body-parser');
+const flash = require('connect-flash');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override')
 const morgan = require('morgan')
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const expressSession = require('express-session');
+
 
 //config Imports
 try{
@@ -76,12 +78,16 @@ app.use(expressSession({
 //Method Override Config
 app.use(methodOverride('_method'));
 
+// Connect flash 
+app.use(flash());
+
 //Passport Config
 app.use(passport.initialize());
 app.use(passport.session());   //Allows persistent sessions
 passport.serializeUser(User.serializeUser()); // What data Should be stored in session
 passport.deserializeUser(User.deserializeUser()); //Get the user data from the stored session
 passport.use(new LocalStrategy(User.authenticate())); // Use the local strategy
+
 
 // Current User Middleware config
 app.use((req ,res ,next) => {
